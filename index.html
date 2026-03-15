@@ -294,6 +294,9 @@ const levels = [
         candies: [
             { x: 250, y: 420 }, { x: 450, y: 320 }, { x: 650, y: 220 }
         ],
+        hearts: [
+            { x: 350, y: 520 }
+        ],
         enemies: [],
         goal: { x: 700, y: 200 }
     },
@@ -311,6 +314,9 @@ const levels = [
         candies: [
             { x: 290, y: 450 }, { x: 440, y: 370 }, { x: 590, y: 290 },
             { x: 440, y: 210 }, { x: 670, y: 130 }
+        ],
+        hearts: [
+            { x: 100, y: 520 }
         ],
         enemies: [
             { x: 550, y: 290, range: 40 }
@@ -336,6 +342,10 @@ const levels = [
             { x: 230, y: 470 }, { x: 360, y: 400 }, { x: 490, y: 330 },
             { x: 620, y: 260 }, { x: 490, y: 190 }, { x: 360, y: 120 },
             { x: 230, y: 120 }, { x: 80, y: 190 }
+        ],
+        hearts: [
+            { x: 50, y: 520 },
+            { x: 300, y: 120 }
         ],
         enemies: [
             { x: 330, y: 400, range: 30 },
@@ -364,6 +374,9 @@ const levels = [
             { x: 505, y: 320 }, { x: 615, y: 270 }, { x: 725, y: 220 },
             { x: 615, y: 170 }, { x: 505, y: 120 }, { x: 410, y: 70 }
         ],
+        hearts: [
+            { x: 420, y: 320 }
+        ],
         enemies: [
             { x: 370, y: 370, range: 25 },
             { x: 590, y: 170, range: 25 }
@@ -391,6 +404,10 @@ const levels = [
             { x: 240, y: 320 }, { x: 440, y: 320 }, { x: 640, y: 320 },
             { x: 390, y: 220 }, { x: 590, y: 220 },
             { x: 520, y: 120 }
+        ],
+        hearts: [
+            { x: 50, y: 520 },
+            { x: 550, y: 320 }
         ],
         enemies: [
             { x: 100, y: 520, range: 80 },
@@ -426,6 +443,10 @@ const levels = [
             { x: 350, y: 170 }, { x: 450, y: 120 }, { x: 550, y: 170 },
             { x: 650, y: 220 }, { x: 755, y: 170 }
         ],
+        hearts: [
+            { x: 350, y: 320 },
+            { x: 450, y: 170 }
+        ],
         enemies: [
             { x: 330, y: 370, range: 20 },
             { x: 230, y: 220, range: 20 },
@@ -454,6 +475,10 @@ const levels = [
             { x: 720, y: 320 }, { x: 550, y: 270 }, { x: 380, y: 220 },
             { x: 210, y: 170 }, { x: 380, y: 120 }, { x: 550, y: 70 },
             { x: 730, y: 20 }
+        ],
+        hearts: [
+            { x: 550, y: 320 },
+            { x: 210, y: 220 }
         ],
         enemies: [
             { x: 520, y: 370, range: 35 },
@@ -489,6 +514,10 @@ const levels = [
             { x: 420, y: 130 }, { x: 320, y: 90 }, { x: 220, y: 50 },
             { x: 340, y: 10 }
         ],
+        hearts: [
+            { x: 620, y: 330 },
+            { x: 320, y: 170 }
+        ],
         enemies: [
             { x: 300, y: 410, range: 20 },
             { x: 500, y: 330, range: 20 },
@@ -506,6 +535,7 @@ let currentLevel = 0;
 let score = 0;
 let highScore = parseInt(localStorage.getItem('candyLandyLite') || '0');
 let levelCandies = [];
+let levelHearts = [];
 let levelEnemies = [];
 let levelPlatforms = [];
 let levelGoal = {};
@@ -539,6 +569,7 @@ function startLevel(idx) {
     const level = levels[idx];
     levelPlatforms = level.platforms.map(p => ({...p}));
     levelCandies = level.candies.map(c => ({...c, collected: false}));
+    levelHearts = (level.hearts || []).map(h => ({...h, collected: false}));
     levelEnemies = level.enemies.map(e => new Enemy(e.x, e.y, e.range));
     levelGoal = {...level.goal};
     player.reset();
@@ -576,6 +607,17 @@ function checkCollisions() {
             audio.collect();
             spawnParticle(c.x + 10, c.y + 10, '#ffd700', 10, { spread: 5 });
             shake(3);
+        }
+    });
+    
+    // Hearts (extra lives)
+    levelHearts.forEach(h => {
+        if (!h.collected && px < h.x + 24 && px + pw > h.x && py < h.y + 24 && py + ph > h.y) {
+            h.collected = true;
+            player.lives++;
+            audio.collect();
+            spawnParticle(h.x + 12, h.y + 12, '#ff69b4', 12, { spread: 6 });
+            shake(4);
         }
     });
     
@@ -676,6 +718,31 @@ function drawCandies() {
     });
 }
 
+function drawHearts() {
+    levelHearts.forEach(h => {
+        if (h.collected) return;
+        const bounce = Math.sin(Date.now() / 300) * 4;
+        const x = h.x + 12;
+        const y = h.y + 12 + bounce;
+        const size = 10;
+        
+        ctx.fillStyle = '#ff1493';
+        ctx.beginPath();
+        ctx.moveTo(x, y + size / 4);
+        ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + size / 4);
+        ctx.bezierCurveTo(x - size / 2, y + size / 2, x, y + size * 0.75, x, y + size);
+        ctx.bezierCurveTo(x, y + size * 0.75, x + size / 2, y + size / 2, x + size / 2, y + size / 4);
+        ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + size / 4);
+        ctx.fill();
+        
+        // Shine
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.beginPath();
+        ctx.arc(x - 4, y + 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+    });
+}
+
 function drawGoal() {
     const allCollected = levelCandies.every(c => c.collected);
     const bounce = Math.sin(Date.now() / 150) * 5;
@@ -745,6 +812,7 @@ function gameLoop() {
         
         drawPlatforms();
         drawCandies();
+        drawHearts();
         levelEnemies.forEach(e => e.draw());
         drawGoal();
         player.draw();
