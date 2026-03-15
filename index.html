@@ -282,6 +282,7 @@ class Enemy {
 
 // --- LEVELS ---
 const levels = [
+    // Level 1: Tutorial - Learn the basics
     {
         name: "Sweet Start",
         platforms: [
@@ -296,6 +297,7 @@ const levels = [
         enemies: [],
         goal: { x: 700, y: 200 }
     },
+    // Level 2: First enemy, more platforms
     {
         name: "Sugar Rush",
         platforms: [
@@ -315,8 +317,9 @@ const levels = [
         ],
         goal: { x: 700, y: 110 }
     },
+    // Level 3: Multiple enemies, vertical climbing
     {
-        name: "Candy Chaos",
+        name: "Candy Climb",
         platforms: [
             { x: 0, y: 550, width: 150, height: 50 },
             { x: 200, y: 500, width: 80, height: 20 },
@@ -340,6 +343,160 @@ const levels = [
             { x: 680, y: 120, range: 50 }
         ],
         goal: { x: 730, y: 100 }
+    },
+    // Level 4: Small platforms, precise jumps
+    {
+        name: "Lollipop Leap",
+        platforms: [
+            { x: 0, y: 550, width: 100, height: 50 },
+            { x: 150, y: 500, width: 60, height: 20 },
+            { x: 260, y: 450, width: 60, height: 20 },
+            { x: 370, y: 400, width: 60, height: 20 },
+            { x: 480, y: 350, width: 60, height: 20 },
+            { x: 590, y: 300, width: 60, height: 20 },
+            { x: 700, y: 250, width: 60, height: 20 },
+            { x: 590, y: 200, width: 60, height: 20 },
+            { x: 480, y: 150, width: 60, height: 20 },
+            { x: 370, y: 100, width: 100, height: 20 }
+        ],
+        candies: [
+            { x: 175, y: 470 }, { x: 285, y: 420 }, { x: 395, y: 370 },
+            { x: 505, y: 320 }, { x: 615, y: 270 }, { x: 725, y: 220 },
+            { x: 615, y: 170 }, { x: 505, y: 120 }, { x: 410, y: 70 }
+        ],
+        enemies: [
+            { x: 370, y: 370, range: 25 },
+            { x: 590, y: 170, range: 25 }
+        ],
+        goal: { x: 400, y: 50 }
+    },
+    // Level 5: Enemy gauntlet
+    {
+        name: "Gummy Gauntlet",
+        platforms: [
+            { x: 0, y: 550, width: 800, height: 50 },
+            { x: 100, y: 450, width: 100, height: 20 },
+            { x: 300, y: 450, width: 100, height: 20 },
+            { x: 500, y: 450, width: 100, height: 20 },
+            { x: 700, y: 450, width: 100, height: 20 },
+            { x: 200, y: 350, width: 100, height: 20 },
+            { x: 400, y: 350, width: 100, height: 20 },
+            { x: 600, y: 350, width: 100, height: 20 },
+            { x: 350, y: 250, width: 100, height: 20 },
+            { x: 550, y: 250, width: 100, height: 20 },
+            { x: 450, y: 150, width: 150, height: 20 }
+        ],
+        candies: [
+            { x: 140, y: 420 }, { x: 340, y: 420 }, { x: 540, y: 420 }, { x: 740, y: 420 },
+            { x: 240, y: 320 }, { x: 440, y: 320 }, { x: 640, y: 320 },
+            { x: 390, y: 220 }, { x: 590, y: 220 },
+            { x: 520, y: 120 }
+        ],
+        enemies: [
+            { x: 100, y: 520, range: 80 },
+            { x: 300, y: 520, range: 80 },
+            { x: 500, y: 520, range: 80 },
+            { x: 200, y: 320, range: 40 },
+            { x: 400, y: 320, range: 40 },
+            { x: 350, y: 220, range: 40 },
+            { x: 450, y: 120, range: 60 }
+        ],
+        goal: { x: 480, y: 100 }
+    },
+    // Level 6: Precision platforming with enemies
+    {
+        name: "Taffy Towers",
+        platforms: [
+            { x: 0, y: 550, width: 80, height: 50 },
+            { x: 130, y: 500, width: 50, height: 20 },
+            { x: 230, y: 450, width: 50, height: 20 },
+            { x: 330, y: 400, width: 50, height: 20 },
+            { x: 230, y: 350, width: 50, height: 20 },
+            { x: 130, y: 300, width: 50, height: 20 },
+            { x: 230, y: 250, width: 50, height: 20 },
+            { x: 330, y: 200, width: 50, height: 20 },
+            { x: 430, y: 150, width: 50, height: 20 },
+            { x: 530, y: 200, width: 50, height: 20 },
+            { x: 630, y: 250, width: 50, height: 20 },
+            { x: 730, y: 200, width: 70, height: 20 }
+        ],
+        candies: [
+            { x: 150, y: 470 }, { x: 250, y: 420 }, { x: 350, y: 370 },
+            { x: 250, y: 320 }, { x: 150, y: 270 }, { x: 250, y: 220 },
+            { x: 350, y: 170 }, { x: 450, y: 120 }, { x: 550, y: 170 },
+            { x: 650, y: 220 }, { x: 755, y: 170 }
+        ],
+        enemies: [
+            { x: 330, y: 370, range: 20 },
+            { x: 230, y: 220, range: 20 },
+            { x: 630, y: 220, range: 20 }
+        ],
+        goal: { x: 740, y: 150 }
+    },
+    // Level 7: Zigzag ascent
+    {
+        name: "Caramel Climb",
+        platforms: [
+            { x: 0, y: 550, width: 100, height: 50 },
+            { x: 180, y: 500, width: 80, height: 20 },
+            { x: 350, y: 450, width: 80, height: 20 },
+            { x: 520, y: 400, width: 80, height: 20 },
+            { x: 690, y: 350, width: 80, height: 20 },
+            { x: 520, y: 300, width: 80, height: 20 },
+            { x: 350, y: 250, width: 80, height: 20 },
+            { x: 180, y: 200, width: 80, height: 20 },
+            { x: 350, y: 150, width: 80, height: 20 },
+            { x: 520, y: 100, width: 80, height: 20 },
+            { x: 690, y: 50, width: 100, height: 20 }
+        ],
+        candies: [
+            { x: 210, y: 470 }, { x: 380, y: 420 }, { x: 550, y: 370 },
+            { x: 720, y: 320 }, { x: 550, y: 270 }, { x: 380, y: 220 },
+            { x: 210, y: 170 }, { x: 380, y: 120 }, { x: 550, y: 70 },
+            { x: 730, y: 20 }
+        ],
+        enemies: [
+            { x: 520, y: 370, range: 35 },
+            { x: 350, y: 220, range: 35 },
+            { x: 690, y: 320, range: 35 },
+            { x: 520, y: 70, range: 35 }
+        ],
+        goal: { x: 720, y: 0 }
+    },
+    // Level 8: Final challenge - tight spaces, many enemies
+    {
+        name: "Sugar Summit",
+        platforms: [
+            { x: 0, y: 550, width: 60, height: 50 },
+            { x: 100, y: 520, width: 50, height: 20 },
+            { x: 200, y: 480, width: 50, height: 20 },
+            { x: 300, y: 440, width: 50, height: 20 },
+            { x: 400, y: 400, width: 50, height: 20 },
+            { x: 500, y: 360, width: 50, height: 20 },
+            { x: 600, y: 320, width: 50, height: 20 },
+            { x: 700, y: 280, width: 50, height: 20 },
+            { x: 600, y: 240, width: 50, height: 20 },
+            { x: 500, y: 200, width: 50, height: 20 },
+            { x: 400, y: 160, width: 50, height: 20 },
+            { x: 300, y: 120, width: 50, height: 20 },
+            { x: 200, y: 80, width: 50, height: 20 },
+            { x: 300, y: 40, width: 100, height: 20 }
+        ],
+        candies: [
+            { x: 120, y: 490 }, { x: 220, y: 450 }, { x: 320, y: 410 },
+            { x: 420, y: 370 }, { x: 520, y: 330 }, { x: 620, y: 290 },
+            { x: 720, y: 250 }, { x: 620, y: 210 }, { x: 520, y: 170 },
+            { x: 420, y: 130 }, { x: 320, y: 90 }, { x: 220, y: 50 },
+            { x: 340, y: 10 }
+        ],
+        enemies: [
+            { x: 300, y: 410, range: 20 },
+            { x: 500, y: 330, range: 20 },
+            { x: 700, y: 250, range: 20 },
+            { x: 500, y: 170, range: 20 },
+            { x: 300, y: 90, range: 20 }
+        ],
+        goal: { x: 330, y: -10 }
     }
 ];
 
