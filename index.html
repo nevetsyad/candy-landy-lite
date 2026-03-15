@@ -612,9 +612,9 @@ function checkCollisions() {
         }
     });
     
-    // Hearts (extra lives)
+    // Hearts (extra lives) - max 5 lives
     levelHearts.forEach(h => {
-        if (!h.collected && px < h.x + 24 && px + pw > h.x && py < h.y + 24 && py + ph > h.y) {
+        if (!h.collected && player.lives < 5 && px < h.x + 24 && px + pw > h.x && py < h.y + 24 && py + ph > h.y) {
             h.collected = true;
             player.lives++;
             audio.collect();
@@ -626,14 +626,17 @@ function checkCollisions() {
     // Enemies
     levelEnemies.forEach(e => {
         if (player.invincible > 0 || player.isDashing) return;
+        if (e.x < -100) return; // Already removed
         if (px < e.x + e.width && px + pw > e.x && py < e.y + e.height && py + ph > e.y) {
             // Stomp from above
             if (player.vy > 0 && py + ph - 10 < e.y + e.height/2) {
+                const ex = e.x + e.width/2;
+                const ey = e.y + e.height/2;
                 player.vy = -10;
                 e.x = -999; // Remove
                 score += 50;
                 audio.collect();
-                spawnParticle(e.x + e.width/2, e.y + e.height/2, '#ff4444', 15, { spread: 8 });
+                spawnParticle(ex, ey, '#ff4444', 15, { spread: 8 });
                 shake(6);
             } else {
                 // Take damage
@@ -660,7 +663,7 @@ function checkCollisions() {
     }
     
     // Fall off screen
-    if (player.y > canvas.height + 50) {
+    if (player.y > canvas.height + 50 && player.invincible <= 0) {
         player.lives--;
         if (player.lives <= 0) {
             state = 'gameover';
@@ -794,7 +797,9 @@ function drawHUD() {
     ctx.font = 'bold 18px Comic Sans MS';
     ctx.fillText(`Score: ${score}`, 20, 35);
     ctx.fillText(`Best: ${highScore}`, 20, 55);
-    ctx.fillText(`Lives: ${'❤️'.repeat(player.lives)}`, 20, 75);
+    // Cap lives display at 5 to prevent overflow
+    const livesDisplay = player.lives > 5 ? `Lives: ${player.lives} ❤️` : `Lives: ${'❤️'.repeat(player.lives)}`;
+    ctx.fillText(livesDisplay, 20, 75);
     
     // Level indicator
     ctx.fillText(`Level ${currentLevel + 1}: ${levels[currentLevel]?.name || ''}`, canvas.width - 200, 35);
